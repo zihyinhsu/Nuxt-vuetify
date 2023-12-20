@@ -14,5 +14,24 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [eslint()],
+    server: {
+      proxy: {
+        "/VsWeb/api": {
+          target: "https://www.vscinemas.com.tw/",
+          changeOrigin: true,
+        },
+      },
+    },
+  },
+  ssr: true,
+  nitro: {
+    prerender: {
+      routes: ["/"],
+      crawlLinks: true,
+    },
+  },
+  routeRules: {
+    // Homepage pre-rendered at build time
+    "/": { prerender: true },
   },
 });
